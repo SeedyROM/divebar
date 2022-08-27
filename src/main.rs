@@ -8,10 +8,18 @@ use std::{
 };
 
 use components::clock::Clock;
-use status_bar::StatusBar;
+use status_bar::{Component, StatusBar};
 
 mod components;
 mod status_bar;
+
+struct Dummy;
+
+impl Component for Dummy {
+    fn output(&self) -> Result<String, Box<dyn std::error::Error>> {
+        Ok("My ass burns".into())
+    }
+}
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create a new status bar.
@@ -24,9 +32,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         running_sigint.store(false, Ordering::SeqCst);
     })?;
 
-    // Add a test component.
+    // Add a test components.
+
     // Clock is a nice thing to peek at.
     status_bar.add_component(Clock);
+
+    // Prove that our system works.
+    status_bar.add_component(Dummy);
 
     // Loop update each second.
     loop {
