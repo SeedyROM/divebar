@@ -9,6 +9,7 @@ chrono = "0.4.22"
 ctrlc = "3.2.3"
 snafu = "0.7.1"
 structopt = "0.3.26"
+sysinfo = "0.25.3"
 xcb = "1.1.1"
 
 [profile.release]

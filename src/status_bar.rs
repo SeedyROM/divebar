@@ -77,7 +77,7 @@ impl StatusBar {
 
         for component in self.components.iter() {
             output.push('[');
-            // TODO: (SeedyROM) I guess N/A direct works for now, this should probably be a constant.
+            // TODO: (SeedyROM) I guess N/A default works for now, this should probably be a constant.
             output.push_str(component.output().unwrap_or("N/A".to_string()).as_str());
             output.push(']');
             if self.components.len() > 1 && index < self.components.len() - 1 {

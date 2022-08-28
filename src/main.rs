@@ -7,19 +7,11 @@ use std::{
     time::Duration,
 };
 
-use components::clock::Clock;
-use status_bar::{Component, StatusBar};
+use components::{clock::Clock, cpu::Cpu};
+use status_bar::StatusBar;
 
 mod components;
 mod status_bar;
-
-struct Dummy;
-
-impl Component for Dummy {
-    fn output(&self) -> Result<String, Box<dyn std::error::Error>> {
-        Ok("My ass burns".into())
-    }
-}
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Create a new status bar.
@@ -32,13 +24,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         running_sigint.store(false, Ordering::SeqCst);
     })?;
 
-    // Add a test components.
+    // Show the CPU usage.
+    status_bar.add_component(Cpu::new());
 
     // Clock is a nice thing to peek at.
     status_bar.add_component(Clock);
-
-    // Prove that our system works.
-    status_bar.add_component(Dummy);
 
     // Loop update each second.
     loop {
@@ -55,7 +45,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         // Sleep for 1 second.
         // TODO: (SeedyROM) Is 1 second the right way to handle this?
-        thread::sleep(Duration::from_millis(1000));
+        thread::sleep(Duration::from_millis(500));
     }
 
     // Clear the status on exit.
