@@ -7,7 +7,7 @@ use std::{
     time::Duration,
 };
 
-use components::{clock::Clock, cpu::Cpu};
+use components::{clock::Clock, cpu::Cpu, mem::Mem};
 use status_bar::StatusBar;
 
 mod components;
@@ -23,6 +23,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     ctrlc::set_handler(move || {
         running_sigint.store(false, Ordering::SeqCst);
     })?;
+
+    // Show the memory usage.
+    status_bar.add_component(Mem::new());
 
     // Show the CPU usage.
     status_bar.add_component(Cpu::new());
@@ -43,8 +46,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let status = status_bar.get_status()?;
         status_bar.set_status(status)?;
 
-        // Sleep for 1 second.
-        // TODO: (SeedyROM) Is 1 second the right way to handle this?
+        // Sleep for 0.5 seconds.
         thread::sleep(Duration::from_millis(500));
     }
 

@@ -26,6 +26,6 @@ impl Component for Cpu {
     fn output(&self) -> Result<String, Box<dyn std::error::Error>> {
         let usage = self.system.global_cpu_info().cpu_usage();
 
-        Ok(format!("CPU: {:.2}%", usage).to_string())
+        Ok(format!("CPU: {:05.2}%", usage).to_string())
     }
 }
